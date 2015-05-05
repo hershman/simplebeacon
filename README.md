@@ -25,9 +25,8 @@ The beacon will try to connect to `http://localhost:8000/v0.5.1`, anticipating t
 `$ ./beacon.py https://big-dataset.example.org/v0.5.1` 
 
 The beacon will default to port 48812 (0xbeac), but can also take a port as an environment variable:
-```bash
-(ga4gh-env)bart@ip-192-168-1-2:~/beacon$ port=5000 ./beacon.py
-```
+
+`$ port=5000 ./beacon.py`
 
 ## TODO
 
