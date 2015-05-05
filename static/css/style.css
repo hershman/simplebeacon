@@ -1,0 +1,18 @@
+body, input {
+    font-family: ProximaNova, Helvetica, Arial, sans-serif;
+}
+input, select {
+    font-size: 1.1em;
+    text-align: center;
+}
+input[type=submit] {
+    margin-top: 1.5em;
+}
+#content {
+    width: 50%;
+    margin: 10em auto;
+    text-align: center;
+}
+#content table {
+    margin: 0 auto;
+}

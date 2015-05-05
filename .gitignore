@@ -1,0 +1,5 @@
+*.pyc
+*.log
+
+certs/*
+secret_key
