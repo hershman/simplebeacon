@@ -1,0 +1,18 @@
+{
+  "google": {
+    "name": "Google",
+    "type": "google",
+    "config_file": "accounts.google.com.json",
+    "config_base": "https://accounts.google.com/",
+    "description": "Use any Google-hosted identity to log in",
+    "logo": "Google_Identity_API-logo_201505_120x120.png"
+  },
+  "example_mitre": {
+    "name": "Example MITREid OP",
+    "type": "mitre",
+    "config_file": "op.example.com.json",
+    "config_base": "https://op.example.com/openid-connect-server-webapp/",
+    "description": "Login using your account at example.com",
+    "logo": "OpenID-logo_201505_120x120.png"
+  }
+}

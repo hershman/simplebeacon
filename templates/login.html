@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Beacon / OpenID Connect Example</title>
+  <link rel="stylesheet" type="text/css" href='{{ url_for('static', filename='css/style.css') }}' />
+</head>
+<body>
+<script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+<div id='content'>
+  <table>
+    <tr>
+{% for op_id, op in ops.iteritems() %}
+      <td style='width:260px;'>
+      <img class='op-logo' src='{{ url_for('static', filename='img/' + op.logo) }}'></img>
+      <br />
+      <span class='op-name'><a href='{{ url_for('oidc_op_redirect') }}?op={{ op_id }}'>Login with {{ op.name }}</a></span>
+      <br />
+      <span class='op-description'>{{ op.description }}</span>
+    </td>
+{% endfor %}
+    </tr>
+  </table>
+</div>
+</body>
+</html>

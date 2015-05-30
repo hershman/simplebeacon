@@ -3,3 +3,5 @@
 
 certs/*
 secret_key
+
+op_config.json

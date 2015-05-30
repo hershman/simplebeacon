@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Beacon / OpenID Connect Example</title>
+  <link rel="stylesheet" type="text/css" href='{{ url_for('static', filename='css/style.css') }}' />
+</head>
+<body>
+<script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+<div class='login_info'>Hello, <strong>{{ user }}</strong> (<a href='{{ url_for('logout') }}'>logout</a>)</div>
+<div id='content'>
+  <form method='POST' action='/query'>
+    <table>
+      <tr>
+        <th>Dataset</th>
+        <th>Chromosome</th>
+        <th>Position</th>
+        <th>Allele</th>
+      </tr>
+      <tr>
+        <td>
+          <select name='populationId'>
+            {% for variant_set in variant_sets %}
+              <option value='{{ variant_set.id }}'>{{ variant_set.id }}</option>
+            {% endfor %}
+          </select>
+        </td>
+        <td><input type=text id='chrom' name='chrom' value='22' /></td>
+        <td><input type=text id='position' name='position' value='16662219' /></td>
+        <td><input type=text id='allele' name='allele' value='G' /></td>
+      </tr>
+    </table>
+    <input type=submit />
+  </form>
+  <br /><br />
+  Tests:
+  <input type='button' example='null' class='example_button' value='Null test' />
+  <input type='button' example='snp' class='example_button' value='rs144372233'/>
+  <input type='button' example='in' class='example_button' value='rs34661208' />
+  <input type='button' example='del' class='example_button' value='rs151020005' />
+</div>
+<script>
+$(function(){
+    var examples = {
+        'null': {'set':'1kg-phase3', 'chr':'22', 'pos':1000, 'allele':'A'},
+        'snp':  {'set':'1kg-phase1', 'chr':'22', 'pos':16662219, 'allele':'G'},
+        'in':   {'set':'1kg-phase1', 'chr':'22', 'pos':18072333, 'allele':'ACTT'},
+        'del':  {'set':'1kg-phase1', 'chr':'22', 'pos':19551625, 'allele':'G'}
+    }
+    $('.example_button').on('click', function(){
+        var example = examples[$(this).attr('example')];
+        if ( example === undefined ) { return; }
+        $('[name=populationId] option').filter(function() { 
+            return ($(this).text() == example.set);
+        }).prop('selected', true); 
+        $('#chrom').val(example.chr);
+        $('#position').val(example.pos);
+        $('#allele').val(example.allele);
+    });
+});
+</script>
+</body>
+</html>
