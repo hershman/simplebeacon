@@ -95,7 +95,6 @@ Connecting to http://localhost:8000/v0.5.1 and retrieving variant sets:
 
 ## TODO
 
-* actually test the installation instructions
 * **Beacon v0.2!!!**
 * Better results page
 * Python3 clean
