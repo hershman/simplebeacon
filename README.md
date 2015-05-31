@@ -7,6 +7,9 @@ This is a very, very basic GA4GH beacon that leverages the GA4GH API reference i
 
 ## Installation / Running
 
+**All instructions are for Ubuntu Server 14.04 amd64, tested on an AWS micro instance.  YMMV.**
+
+
 First, get the GA4GH API demo server working by [following the excellent instructions](http://ga4gh-reference-implementation.readthedocs.org/en/stable/demo.html).  I suggest running the demo under `screen`, but you can always reconnect with a second shell/tty.
 
 This beacon requires flask and the GA4GH python libraries.  The GA4GH API demo utilizes `virtualenv` to compartmentalize these dependencies and we can leverage that hard work.
@@ -17,8 +20,8 @@ Just source the `activate` script, as shown in the client example in the demo in
 
 ```bash
 ~$ source ga4gh-env/bin/activate
-(ga4gh-env) ~$ cd beacon/
-(ga4gh-env) ~/beacon$ ./beacon.py
+(ga4gh-env) ~$ cd simplebeacon/
+(ga4gh-env) ~/simplebeacon$ ./beacon.py
 Connecting to http://localhost:8000/v0.5.1 and retrieving variant sets:
     1kg-phase1
     1kg-phase3
@@ -54,7 +57,7 @@ Cleaning up...
 
 Great!  Everything is installed!  But before running the OpenID Connect Relying Party ("RP") version of the beacon you'll need to register your beacon with an OpenID Connect Provider ("OP"), put your Client ID and secret in `oidc_secrets` in the form of a JSON doc, and create an entry to that OP config in `op_config.json`.
 
-If you're looking for an OP to test against, Google's Identity API supports OpenID Connect, is free, and is pretty simple to set up.  There's some instructions with screenshots [here](doc/setup_google_identity.md).  Put the JSON containing your Client ID and secret in `oidc_secrets`.  Better yet, put it somewhere safe and create a symlink to it from `oidc_secrets`.  (You shouldn't ever need to write these documents by hand but I've included examples of these two types in the `oidc_secrets` directory for reference.)
+If you're looking for an OP to test against, Google's Identity API supports OpenID Connect, is free, and is pretty simple to set up.  [Here's some instructions with screenshots here](doc/setup_google_identity.md).  Put the JSON containing your Client ID and secret in `oidc_secrets`.  Better yet, put it somewhere safe and create a symlink to it from `oidc_secrets`.  (You shouldn't ever need to write these documents by hand but I've included examples of these two types in the `oidc_secrets` directory for reference.)
 
 OpenID Connect doesn't specify a schema for expressing Client ID/secret documents, so you'll need to specify what `type` of OP you got the file from in `op_config.json`.  I've added support for two JSON formats: the one produced by [Google's Identity API](https://developers.google.com/identity/protocols/OpenIDConnect) (`"type": "google"`), and the one produced by [MITREid Connect](http://kit.mit.edu/projects/mitreid-connect) (`"type": "mitre"`).
 
@@ -73,9 +76,9 @@ If everything is configured correctly, things should work similarly to running i
 
 ```bash
 ~$ source ga4gh-env/bin/activate
-(ga4gh-env) ~$ cd beacon/
-(ga4gh-env) ~$ head -c 24 /dev/urandom > secret_key  # for secure cookies
-(ga4gh-env) ~/beacon$ ./beacon_rp.py
+(ga4gh-env) ~$ cd simplebeacon/
+(ga4gh-env) ~/simplebeacon$ head -c 24 /dev/urandom > secret_key  # for secure cookies
+(ga4gh-env) ~/simplebeacon$ ./beacon_rp.py
 Connecting to http://localhost:8000/v0.5.1 and retrieving variant sets:
     1kg-phase1
     1kg-phase3

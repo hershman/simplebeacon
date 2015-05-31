@@ -41,4 +41,4 @@ If you think this credential has been compromised, just create another and recon
 
 ![Client Credentials and Download JSON](setup_google_identity/07 - Client Credentials and Download JSON.png)
 
-Now that you have client credentials in JSON, you can put it in your `oidc_secrets` directory and put an entry for it in your `op_config.json` with the type "google" (see the example).
+Now that you have client credentials in JSON, you can put it in your `oidc_secrets` directory and put an entry for it in your `op_config.json` with the type "google".
