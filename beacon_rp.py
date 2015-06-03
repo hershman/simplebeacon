@@ -121,11 +121,13 @@ def oidc_callback():
         "client_secret": client.client_secret
     }
 
-    resp = client.do_access_token_request(scope="openid genecloud_bgkc_exome",
+    resp = client.do_access_token_request(scope="openid",
                                           state=aresp["state"],
                                           request_args=args,
                                           authn_method="client_secret_post"
                                           )
+
+    print resp
 
     # FRAGILE!  Why does do_user_info_request() not authenticate to the OP?
     #    Also, why does the Mitre OP implementation not require that the RP
@@ -135,6 +137,7 @@ def oidc_callback():
         session['id_expiry'] = resp['id_token']['exp']
     else:
         userinfo = client.do_user_info_request(state=aresp["state"])
+        print userinfo
         session['id'] = userinfo['email']
         session['id_expiry'] = resp['id_token']['exp']
 
