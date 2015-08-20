@@ -100,7 +100,7 @@ def infoBeacon():
     response.query = BEACON_EX_QUERY
     response.auth = BEACON_AUTH
     response.email = BEACON_EMAIL
-    response.datasets = variant_sets
+    #response.datasets = variant_sets #not correct - there is a specific beacon.avro DataSetResource format expected here
     hostName = os.environ.get("HTTP_HOST", "localhost")
     response.homepage = "http://%s/" % hostName
     return response.toJsonString()
