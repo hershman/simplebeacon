@@ -5,7 +5,6 @@ import os
 import sys
 import logging
 
-#import protocol
 import _protocol_definitions as beacon_protocol
 
 from flask import *
@@ -26,11 +25,13 @@ for variant_set in variant_sets:
 
 
 # Beacon Constants/Functions
-BEACON = True
 BEACON_ID = "reference-beacon"
 BEACON_NAME = "Beacon"
 BEACON_ORGANIZATION = "You"
 BEACON_DESCRIPTION = ""
+BEACON_AUTH = "OAUTH2" #not true in this file but would be in beacon_rp.py
+BEACON_EX_QUERY = "Try searching for A at 1:324532243" #example query
+BEACON_EMAIL = "you@blah.com"
 
 def sameAllele(variants, allele):
     """Checks if any variaints have the alternative allele specified"""
@@ -62,31 +63,51 @@ def query():
     variants_request.end = int(request.form['position'])
 
     variants = variants_client.searchVariants(variants_request)
-    exists = sameAllele(variants, query.allele)
+    exists = sameAllele(variants, request.form['allele'])
 
+
+    #Make Requrest Response
     request_response = beacon_protocol.ResponseResource()
     request_response.exists = exists
+    # request_response also has optional fields: frequency, observed, info, err
 
+    #Make Query
+    #we're going to repeat ourselves from above because the beacon response returns the query in a differnt format than a (GA)SearchVariantsRequest
+    query_resource = beacon_protocol.QueryResource()
+    query_resource.referenceBases = "NA" # (required) reference at this position. I'm not sure where we get this
+    query_resource.alternateBases = request.form['allele']
+    query_resource.chromosome = request.form['chrom']
+    query_resource.position = int(request.form['position']) - 1
+    query_resource.reference = "NA" # (required) Another loose end
+    query_resource.dataset = request.form['populationId']
+
+    #we now package the request response and query into a BeaconResponseResource
     response = beacon_protocol.BeaconResponseResource()
     response.beacon = BEACON_ID
-    response.query = query
+    response.query = query_resource
     response.response = request_response
-    return response.toJSONString()
+    return response.toJsonString()
 
 
 @app.route('/info', methods=['GET'])
 def infoBeacon():
-    response = beacon_protocol.BeaconResource()
+    response = beacon_protocol.BeaconInformationResource()
     response.id = BEACON_ID
     response.name = BEACON_NAME
     response.organization = BEACON_ORGANIZATION
     response.description = BEACON_DESCRIPTION
     response.api = "0.2"
+    response.query = BEACON_EX_QUERY
+    response.auth = BEACON_AUTH
+    response.email = BEACON_EMAIL
+    response.datasets = variant_sets
     hostName = os.environ.get("HTTP_HOST", "localhost")
     response.homepage = "http://%s/" % hostName
-    return response.toJSONString()
+    return response.toJsonString()
 
 if __name__ == '__main__':
     port = int(os.environ['port']) if 'port' in os.environ else 0xBeac
     app.run(host='0.0.0.0', port=port)
+
+
 
